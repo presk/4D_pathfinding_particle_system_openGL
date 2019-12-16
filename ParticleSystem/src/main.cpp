@@ -4,6 +4,7 @@
 #include "ParticleEffect.h"
 #include "CircleGenerator.h"
 #include "CrownGenerator.h"
+#include "Board.h"
 
 PivotCamera g_Camera;
 CircleGenerator g_CircleGeneratorRight;
@@ -28,6 +29,7 @@ bool g_bRightMouseDown = false;
 
 bool g_bUpdate = true;
 
+Board board(100, 20);
 glm::vec2 g_MouseCurrent = glm::vec2(0);
 glm::vec2 g_MousePrevious = glm::vec2(0);
 glm::vec2 g_MouseDelta = glm::vec2(0);
@@ -58,6 +60,8 @@ int main( int argc, char* argv[] )
     g_Camera.SetTranslate( g_DefaultCameraTranslate );
     g_Camera.SetRotate( g_DefaultCameraRotate );
     g_Camera.SetPivot( g_DefaultCameraPivot );
+	board.AttachCamera(&g_Camera);
+	board.RandomizeTileType();
 
     if ( g_ParticleEffectRight.LoadTexture( "Data/Textures/Particle-Texture.png" ) 
 		&& g_ParticleEffectLeft.LoadTexture("Data/Textures/Particle-Texture.png")
@@ -127,7 +131,7 @@ void DrawAxis( float fScale, glm::vec3 translate = glm::vec3(0) )
 {
     glPushAttrib( GL_ENABLE_BIT );
 
-    glDisable( GL_DEPTH_TEST );
+    glEnable( GL_DEPTH_TEST );
     glDisable( GL_LIGHTING );
 
     glPushMatrix();
@@ -163,12 +167,14 @@ void DisplayGL()
     glLoadIdentity();
 
     g_Camera.ApplyViewTransform();
-
+	board.Render();
     DrawAxis( 20.0f, g_Camera.GetPivot() );
 
     g_ParticleEffectRight.Render();
 	g_ParticleEffectLeft.Render();
 	g_ParticleEffectHead.Render();
+
+	
 
     glutSwapBuffers();
     glutPostRedisplay();

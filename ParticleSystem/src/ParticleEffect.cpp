@@ -171,7 +171,7 @@ void ParticleEffect::Update(float DeltaTime)
 
 void ParticleEffect::Render()
 {
-    glDisable(GL_DEPTH_TEST);           // Disables Depth Testing
+    glEnable(GL_DEPTH_TEST);           //  Depth Testing
     glEnable(GL_BLEND);                 // Enable Blending
     glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);   // Type Of Blending To Perform
     glEnable(GL_TEXTURE_2D);            // Enable textures

@@ -94,10 +94,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Board.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\CircleGenerator.cpp" />
     <ClCompile Include="src\CrownGenerator.cpp" />
     <ClCompile Include="src\ElapsedTime.cpp" />
+    <ClCompile Include="src\LampGenerator.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ParticleEffect.cpp" />
     <ClCompile Include="src\ParticleSystemPCH.cpp">
@@ -107,18 +109,26 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ParticleSystemPCH.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\PivotCamera.cpp" />
+    <ClCompile Include="src\SubSquare.cpp" />
+    <ClCompile Include="src\SubTriangle.cpp" />
+    <ClCompile Include="src\Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\Board.h" />
     <ClInclude Include="inc\Camera.h" />
     <ClInclude Include="inc\CircleGenerator.h" />
     <ClInclude Include="inc\CrownGenerator.h" />
     <ClInclude Include="inc\ElapsedTime.h" />
+    <ClInclude Include="inc\LampGenerator.h" />
     <ClInclude Include="inc\Particle.h" />
     <ClInclude Include="inc\ParticleEffect.h" />
     <ClInclude Include="inc\ParticleGenerator.h" />
     <ClInclude Include="inc\ParticleSystemPCH.h" />
     <ClInclude Include="inc\PivotCamera.h" />
     <ClInclude Include="inc\Random.h" />
+    <ClInclude Include="inc\SubSquare.h" />
+    <ClInclude Include="inc\SubTriangle.h" />
+    <ClInclude Include="inc\Tile.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\externals\Simple OpenGL Image Library\projects\VC9\SOIL.vcxproj">
