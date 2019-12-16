@@ -33,10 +33,10 @@
   C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\ucrt\stdio.h(207): note: see declaration of 'fopen'
 ..\..\src\stb_image_aug.c(3644): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\ucrt\stdio.h(207): note: see declaration of 'fopen'
-e:\dropbox\concordia\12. fall 2019\comp 477\a2\particleeffect\particleeffect\externals\simple opengl image library\src\stbi_DDS_aug_c.h(362): warning C4018: '>': signed/unsigned mismatch
-e:\dropbox\concordia\12. fall 2019\comp 477\a2\particleeffect\particleeffect\externals\simple opengl image library\src\stbi_DDS_aug_c.h(366): warning C4018: '>': signed/unsigned mismatch
-e:\dropbox\concordia\12. fall 2019\comp 477\a2\particleeffect\particleeffect\externals\simple opengl image library\src\stbi_DDS_aug_c.h(390): warning C4018: '<': signed/unsigned mismatch
-e:\dropbox\concordia\12. fall 2019\comp 477\a2\particleeffect\particleeffect\externals\simple opengl image library\src\stbi_DDS_aug_c.h(427): warning C4018: '<': signed/unsigned mismatch
-e:\dropbox\concordia\12. fall 2019\comp 477\a2\particleeffect\particleeffect\externals\simple opengl image library\src\stbi_DDS_aug_c.h(498): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+e:\github\477-project\externals\simple opengl image library\src\stbi_DDS_aug_c.h(362): warning C4018: '>': signed/unsigned mismatch
+e:\github\477-project\externals\simple opengl image library\src\stbi_DDS_aug_c.h(366): warning C4018: '>': signed/unsigned mismatch
+e:\github\477-project\externals\simple opengl image library\src\stbi_DDS_aug_c.h(390): warning C4018: '<': signed/unsigned mismatch
+e:\github\477-project\externals\simple opengl image library\src\stbi_DDS_aug_c.h(427): warning C4018: '<': signed/unsigned mismatch
+e:\github\477-project\externals\simple opengl image library\src\stbi_DDS_aug_c.h(498): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\ucrt\stdio.h(207): note: see declaration of 'fopen'
-  SOIL.vcxproj -> E:\Dropbox\Concordia\12. FALL 2019\COMP 477\A2\ParticleEffect\ParticleEffect\Release\SOIL.lib
+  SOIL.vcxproj -> E:\GitHub\477-Project\Release\SOIL.lib
