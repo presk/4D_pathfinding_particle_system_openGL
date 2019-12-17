@@ -1,6 +1,7 @@
 #include "ParticleSystemPCH.h"
 #include "Board.h"
 #include "..\inc\Board.h"
+//#include "CrownGenerator.h"
 
 Board::Board(int bSize, int tCount)
 {
@@ -59,6 +60,14 @@ void Board::Render()
 		}
 	}
 	glEnd();
+	glPointSize(40.0f);//set point size to 10 pixels
+	glColor3f(0.0f, 0.0f, 1.0f); //blue color
+	glBegin(GL_POINTS);
+	{
+		glm::vec3 cPos = _checkpoint->getPosition();
+		glVertex3f(cPos.x, 2.0f, cPos.z);
+	}
+	glEnd();
 
 	glPopMatrix();
 	glPopAttrib();
@@ -69,9 +78,22 @@ void Board::AttachCamera(PivotCamera * cam)
 	_camera = cam;
 }
 
+void Board::AttachAI(CrownGenerator * cg)
+{
+	_AI = cg;
+	std::vector<Node *> nodes = getAllNodes();
+	int randInt = rand() % ((_tileCount - 2) * 8)  + _tileCount + 8;
+	nodes[randInt]->isPlayer();
+	glm::vec3 pos = nodes[randInt]->getPosition();
+	_AI->Origin = pos + glm::vec3(0, 10.0f, 0);
+	Node * n = nodes[nodes.size() - randInt];
+	setCheckpoint(n);
+
+}
+
 void Board::RandomizeTileType()
 {
-	srand(time(NULL));
+	
 	std::vector<glm::vec3> roadTriangles;
 	for (int i = 0; i < _tiles.size(); i++)
 	{
@@ -80,11 +102,11 @@ void Board::RandomizeTileType()
 		{
 			SubTriangle* stu = ss[j]->getUpTriangle();
 			SubTriangle* stdown = ss[j]->getDownTriangle();
-			if (rand() % 10  < 2)
+			if (rand() % 10  < 2 && !(stu->getNode()->isPlayer()))
 			{
 				stu->setType(ELSE);
 			}
-			if (rand() % 10  < 2)
+			if (rand() % 10  < 2 && !(stu->getNode()->isPlayer()))
 			{
 				stdown->setType(ELSE);
 			}
@@ -145,4 +167,10 @@ int Board::getBoardSize()
 int Board::getTileCount()
 {
 	return _tileCount;
+}
+
+void Board::setCheckpoint(Node * n)
+{
+	n->setTarget(true);
+	_checkpoint = n;
 }

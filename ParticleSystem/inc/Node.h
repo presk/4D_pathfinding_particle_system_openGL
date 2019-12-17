@@ -9,10 +9,14 @@ public:
 	void setType(int type);
 	void setObstructed(bool obs);
 	void addCNode(Node * n);
+	void setPlayer(bool p);
+	void setTarget(bool t);
 	std::set<Node *> getCNodes();
 	int getType();
 	glm::vec3 getPosition();
 	bool isObstructed();
+	bool isPlayer();
+	bool isTarget();
 
 
 private:
@@ -20,6 +24,8 @@ private:
 	glm::vec3 _position;
 	int _type;
 	bool _isObstructed;
+	bool _isTarget;
+	bool _isPlayer;
 	int _value;
 
 };

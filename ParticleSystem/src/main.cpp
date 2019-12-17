@@ -57,13 +57,17 @@ void Cleanup();
 
 int main( int argc, char* argv[] )
 {
+	srand(time(NULL));
     InitGL( argc, argv );
 
     g_Camera.SetTranslate( g_DefaultCameraTranslate );
     g_Camera.SetRotate( g_DefaultCameraRotate );
     g_Camera.SetPivot( g_DefaultCameraPivot );
 	board.AttachCamera(&g_Camera);
+	board.AttachAI(&g_CrownGenerator);
 	board.RandomizeTileType();
+	//board.setCheckPoints();
+	
 	graph = Graph(&board, &g_Camera);
 	
 
@@ -83,8 +87,10 @@ int main( int argc, char* argv[] )
 	g_ParticleEffectRight.SetCamera(&g_Camera);
 	g_ParticleEffectLeft.SetCamera(&g_Camera);
 	g_ParticleEffectHead.SetCamera(&g_Camera);
-	g_CrownGenerator.Origin = glm::vec3(0.0f, 20.0f, 10.0f);
+	
+	//g_CrownGenerator.Origin = glm::vec3(0.0f, 20.0f, 10.0f);
 	g_ParticleEffectHead.GenerateParticles();
+	
     glutMainLoop();
 }
 
@@ -204,14 +210,14 @@ void IdleGL()
 		g_ParticleEffectHead.BuildVertexBuffer();
     }
 	g_ParticleEffectHead.AddParticles();
-	if (g_CrownGenerator.Origin.x != g_CrownGenerator.Course.x)
+	/*if (g_CrownGenerator.Origin.x != g_CrownGenerator.Course.x)
 	{
 		float distance = g_CrownGenerator.Course.x - g_CrownGenerator.Origin.x;
 		if (std::abs(distance) < 0.1)
 			g_CrownGenerator.Origin.x = g_CrownGenerator.Course.x;
 		else
 			g_CrownGenerator.Origin.x += 0.1*distance;
-	}
+	}*/
     glutPostRedisplay();
 }
 
@@ -253,7 +259,7 @@ void KeyboardGL( unsigned char c, int x, int y )
 			g_CircleGeneratorLeft.Origin = glm::vec3(10.0f * g_step, 0.0f, 0.0f);
 			g_ParticleEffectLeft.GenerateParticles();
 		}
-		g_CrownGenerator.SetCourse(glm::vec3(10.0f * g_step, 0.0f, 0.0f));
+		//g_CrownGenerator.SetCourse(glm::vec3(10.0f * g_step, 0.0f, 0.0f));
 
 	}
 	break;
@@ -272,7 +278,7 @@ void KeyboardGL( unsigned char c, int x, int y )
 			g_CircleGeneratorLeft.Origin = glm::vec3(10.0f * g_step, 0.0f, 0.0f);
 			g_ParticleEffectLeft.GenerateParticles();
 		}
-		g_CrownGenerator.SetCourse(glm::vec3(10.0f * g_step, 0.0f, 0.0f));
+		//g_CrownGenerator.SetCourse(glm::vec3(10.0f * g_step, 0.0f, 0.0f));
 	}
 	break;
     case '\033': // escape quits

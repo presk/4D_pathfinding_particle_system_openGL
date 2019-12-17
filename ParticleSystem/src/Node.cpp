@@ -10,10 +10,10 @@ Node::Node(glm::vec3 pos, int type, bool obs)
 
 Node::~Node()
 {
-	for (auto n : _connectedNodes)
+	/*for (auto n : _connectedNodes)
 	{
 		delete n;
-	}
+	}*/
 }
 
 void Node::setType(int type)
@@ -29,6 +29,16 @@ void Node::setObstructed(bool obs)
 void Node::addCNode(Node * n)
 {
 	_connectedNodes.insert(n);
+}
+
+void Node::setPlayer(bool p)
+{
+	_isPlayer = p;
+}
+
+void Node::setTarget(bool t)
+{
+	_isTarget = t;
 }
 
 std::set<Node*> Node::getCNodes()
@@ -49,4 +59,14 @@ glm::vec3 Node::getPosition()
 bool Node::isObstructed()
 {
 	return _isObstructed;
+}
+
+bool Node::isPlayer()
+{
+	return _isPlayer;
+}
+
+bool Node::isTarget()
+{
+	return _isTarget;
 }
