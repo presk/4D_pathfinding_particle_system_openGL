@@ -83,8 +83,9 @@ void Board::AttachAI(CrownGenerator * cg)
 	_AI = cg;
 	std::vector<Node *> nodes = getAllNodes();
 	int randInt = rand() % ((_tileCount - 2) * 8)  + _tileCount + 8;
-	nodes[randInt]->isPlayer();
-	glm::vec3 pos = nodes[randInt]->getPosition();
+	_AINode = nodes[randInt];
+	_AINode->setPlayer(true);
+	glm::vec3 pos = _AINode->getPosition();
 	_AI->Origin = pos + glm::vec3(0, 10.0f, 0);
 	Node * n = nodes[nodes.size() - randInt];
 	setCheckpoint(n);
@@ -104,11 +105,11 @@ void Board::RandomizeTileType()
 			SubTriangle* stdown = ss[j]->getDownTriangle();
 			if (rand() % 10  < 2 && !(stu->getNode()->isPlayer()))
 			{
-				stu->setType(ELSE);
+				//stu->setType(ELSE);
 			}
 			if (rand() % 10  < 2 && !(stu->getNode()->isPlayer()))
 			{
-				stdown->setType(ELSE);
+				//stdown->setType(ELSE);
 			}
 		}
 	}
@@ -167,6 +168,21 @@ int Board::getBoardSize()
 int Board::getTileCount()
 {
 	return _tileCount;
+}
+
+glm::vec3 Board::getAIPos()
+{
+	return _AI->Origin;
+}
+
+Node * Board::getAINode()
+{
+	return _AINode;
+}
+
+Node * Board::getCheckpoint()
+{
+	return _checkpoint;
 }
 
 void Board::setCheckpoint(Node * n)

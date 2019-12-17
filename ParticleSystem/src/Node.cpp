@@ -41,6 +41,26 @@ void Node::setTarget(bool t)
 	_isTarget = t;
 }
 
+void Node::setG(int g)
+{
+	_g = g;
+}
+
+void Node::setH(int h)
+{
+	_h = h;
+}
+
+void Node::setF(int f)
+{
+	_f = f;
+}
+
+void Node::setParentNode(Node * n)
+{
+	_parentNode = n;
+}
+
 std::set<Node*> Node::getCNodes()
 {
 	return _connectedNodes;
@@ -50,6 +70,27 @@ int Node::getType()
 {
 	return _type;
 }
+
+int Node::getG()
+{
+	return _g;
+}
+
+int Node::getH()
+{
+	return _h;
+}
+
+int Node::getF()
+{
+	return _f;
+}
+
+Node * Node::getParentNode()
+{
+	return _parentNode;
+}
+
 
 glm::vec3 Node::getPosition()
 {

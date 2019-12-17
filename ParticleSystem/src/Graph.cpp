@@ -42,11 +42,102 @@ void Graph::Render()
 				glVertex3f(pos2.x, pos2.y, pos2.z);
 			}
 		}
+		glColor3f(1.0f, 0.0f, 0.0f);
+		if (!_path.empty())
+		{
+			for (int i = 0; i < _path.size() - 1; i++)
+			{
+				glm::vec3 pos = _path[i]->getPosition();
+				glVertex3f(pos.x, pos.y + 1.0f, pos.z);
+				glm::vec3 pos2 = _path[i + 1]->getPosition();
+				glVertex3f(pos2.x, pos2.y + 1.0f, pos2.z);
+			}
+		}
+		
 	}
 	glEnd();
 
 	glPopMatrix();
 	glPopAttrib();
+}
+
+void Graph::findShortestPath()
+{
+	std::vector<Node *> nodes = _board->getAllNodes();
+	Node * startNode = _board->getAINode();
+	Node * targetNode = _board->getCheckpoint();
+	for (auto n : nodes)
+	{
+		if (!(n->isPlayer()))
+		{
+			glm::vec3 dist = targetNode->getPosition() - n->getPosition();
+			n->setH((int)glm::length(dist));
+			n->setF(99999999);
+			n->setG(0);
+			n->setParentNode(NULL);
+		}
+		
+	}
+	typedef std::pair<int, Node*> nodePair;
+	//std::priority_queue<nodePair, std::vector<nodePair>, std::greater<nodePair> > openList;
+	//std::priority_queue<nodePair, std::vector<nodePair>, std::greater<nodePair> > closedList;
+	std::multiset<Node *> openList;
+	std::multiset<Node *> closedList;
+	startNode->setF(0);
+	startNode->setG(0);
+	openList.insert(startNode);
+	while (!openList.empty())
+	{
+		std::multiset<Node *>::iterator it;
+		it = openList.begin();
+		Node * node = *it;
+		openList.erase(node);
+		closedList.insert(node);
+		std::set<Node *> nodeSet = node->getCNodes();
+		for (auto nextNode : nodeSet)
+		{
+			if (nextNode->isTarget())
+			{
+				nextNode->setParentNode(node);
+				break;
+			}
+			int oldG = nextNode->getG();
+			int newG = node->getG() + 1 + 1 * nextNode->isObstructed();
+			if ( openList.find(nextNode) != openList.end() && newG < oldG)
+			{
+				openList.erase(nextNode);
+			}
+			if (closedList.find(nextNode) == closedList.end() && newG < oldG)
+			{
+				closedList.erase(nextNode);
+			}
+			if (openList.find(nextNode) == openList.end() && closedList.find(nextNode) == closedList.end())
+			{
+				nextNode->setG(newG);
+				nextNode->setF(nextNode->getG() + nextNode->getH());
+				nextNode->setParentNode(node);
+				openList.insert(nextNode);
+			}
+		}
+	}
+	Node * p = targetNode;
+	std::vector<Node *> path;
+	while(p->getParentNode() != NULL)
+	{
+		path.insert(path.begin(), p);
+		p = p->getParentNode();
+	}
+	_path = path;
+}
+
+std::vector<Node*> Graph::getPath()
+{
+	return _path;
+}
+
+void Graph::setPath(std::vector<Node *> path)
+{
+	_path = path;
 }
 
 void Graph::GenerateGraph()
@@ -209,6 +300,7 @@ void Graph::GenerateGraph()
 			}
 		}	
 	}
+	findShortestPath();
 }
 
 

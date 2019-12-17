@@ -18,7 +18,8 @@ public:
 	int getBoardSize();
 	int getTileCount();
 	glm::vec3 getAIPos();
-	Node * getAIPosNode();
+	Node * getAINode();
+	Node * getCheckpoint();
 	void setCheckpoint(Node * n);
 
 private:
@@ -28,6 +29,7 @@ private:
 	int _tileCount;
 	CrownGenerator * _AI;
 	Node * _checkpoint;
+	Node *_AINode;
 	PivotCamera * _camera;
 
 };
