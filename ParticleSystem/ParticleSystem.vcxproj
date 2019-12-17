@@ -99,8 +99,10 @@
     <ClCompile Include="src\CircleGenerator.cpp" />
     <ClCompile Include="src\CrownGenerator.cpp" />
     <ClCompile Include="src\ElapsedTime.cpp" />
+    <ClCompile Include="src\Graph.cpp" />
     <ClCompile Include="src\LampGenerator.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Node.cpp" />
     <ClCompile Include="src\ParticleEffect.cpp" />
     <ClCompile Include="src\ParticleSystemPCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -119,7 +121,9 @@
     <ClInclude Include="inc\CircleGenerator.h" />
     <ClInclude Include="inc\CrownGenerator.h" />
     <ClInclude Include="inc\ElapsedTime.h" />
+    <ClInclude Include="inc\Graph.h" />
     <ClInclude Include="inc\LampGenerator.h" />
+    <ClInclude Include="inc\Node.h" />
     <ClInclude Include="inc\Particle.h" />
     <ClInclude Include="inc\ParticleEffect.h" />
     <ClInclude Include="inc\ParticleGenerator.h" />

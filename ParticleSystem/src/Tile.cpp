@@ -19,7 +19,7 @@ Tile::Tile(glm::vec3 pos, float size)
 	{
 		for(int j = -1; j <= 1; j = j + 2)
 		{
-			glm::vec3 ssPos = _position + glm::vec3(i * offset, 0, j * offset);
+			glm::vec3 ssPos = _position + glm::vec3(j * offset, 0, i * offset);
 			SubSquare * ss = new SubSquare(ssPos, offset * 2/*, this*/);
 			_quadrants.push_back(ss);
 		}

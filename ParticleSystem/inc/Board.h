@@ -12,6 +12,9 @@ public:
 	void AttachCamera(PivotCamera * cam);
 	void RandomizeTileType();
 	std::vector<glm::vec3> getAllRoadTriangles();
+	std::vector<Node*> getAllNodes();
+	int getBoardSize();
+	int getTileCount();
 
 private:
 	

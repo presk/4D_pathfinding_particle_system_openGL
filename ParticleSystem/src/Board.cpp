@@ -4,13 +4,15 @@
 
 Board::Board(int bSize, int tCount)
 {
+	_boardSize = bSize;
+	_tileCount = tCount;
 	//std::cout << "Board Creation Success!" << std::endl;
 	float tSize = (float)bSize / (float)tCount;
 	for (int i = 0; i < tCount; i++)
 	{
 		for (int j = 0; j < tCount; j++)
 		{
-			Tile * t = new Tile(glm::vec3(tSize/2.0f - bSize/2.0f + i*tSize, 0, tSize / 2.0f - bSize / 2.0f + j*tSize), tSize);
+			Tile * t = new Tile(glm::vec3(tSize/2.0f - bSize/2.0f + j*tSize, 0, tSize / 2.0f - bSize / 2.0f + i*tSize), tSize);
 			_tiles.push_back(t);
 		}
 	}
@@ -38,13 +40,21 @@ void Board::Render()
 	glm::vec3 translate = _camera->GetPivot();
 	glTranslatef(translate.x, translate.y, translate.z);
 	//glScalef(fScale, fScale, fScale);
-	glColor3f(0.0f, 0.0f, 1.0f);
+	glColor3f(0.0f, 1.0f, 0.0f);
 	std::vector<glm::vec3> roadTriangles = getAllRoadTriangles();
 
 	glBegin(GL_TRIANGLES);
 	{
 		for (int i = 0; i < roadTriangles.size(); i++)
 		{
+			if (i % 6 < 3)
+			{
+				glColor3f(0.0f, 1.0f, 0.0f);
+			}
+			else
+			{
+				glColor3f(1.0f, 0.0f, 0.0f);
+			}
 			glVertex3f(roadTriangles[i].x, roadTriangles[i].y, roadTriangles[i].z);
 		}
 	}
@@ -70,11 +80,11 @@ void Board::RandomizeTileType()
 		{
 			SubTriangle* stu = ss[j]->getUpTriangle();
 			SubTriangle* stdown = ss[j]->getDownTriangle();
-			if (rand() % 10  < 7)
+			if (rand() % 10  < 2)
 			{
 				stu->setType(ELSE);
 			}
-			if (rand() % 10  < 7)
+			if (rand() % 10  < 2)
 			{
 				stdown->setType(ELSE);
 			}
@@ -108,4 +118,31 @@ std::vector <glm::vec3> Board::getAllRoadTriangles()
 		}
 	}
 	return roadTriangles;
+}
+
+std::vector<Node*> Board::getAllNodes()
+{
+	std::vector<Node*> roadTriangles;
+	for (int i = 0; i < _tiles.size(); i++)
+	{
+		std::vector<SubSquare*> ss = _tiles[i]->getAllSquares();
+		for (int j = 0; j < ss.size(); j++)
+		{
+			SubTriangle* stu = ss[j]->getUpTriangle();
+			SubTriangle* stdown = ss[j]->getDownTriangle();
+			roadTriangles.push_back(stu->getNode());
+			roadTriangles.push_back(stdown->getNode());
+		}
+	}
+	return roadTriangles;
+}
+
+int Board::getBoardSize()
+{
+	return _boardSize;
+}
+
+int Board::getTileCount()
+{
+	return _tileCount;
 }

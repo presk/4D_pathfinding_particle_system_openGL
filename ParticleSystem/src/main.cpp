@@ -5,6 +5,7 @@
 #include "CircleGenerator.h"
 #include "CrownGenerator.h"
 #include "Board.h"
+#include "Graph.h"
 
 PivotCamera g_Camera;
 CircleGenerator g_CircleGeneratorRight;
@@ -29,7 +30,8 @@ bool g_bRightMouseDown = false;
 
 bool g_bUpdate = true;
 
-Board board(100, 20);
+Board board(100, 10);
+Graph graph;
 glm::vec2 g_MouseCurrent = glm::vec2(0);
 glm::vec2 g_MousePrevious = glm::vec2(0);
 glm::vec2 g_MouseDelta = glm::vec2(0);
@@ -62,6 +64,8 @@ int main( int argc, char* argv[] )
     g_Camera.SetPivot( g_DefaultCameraPivot );
 	board.AttachCamera(&g_Camera);
 	board.RandomizeTileType();
+	graph = Graph(&board, &g_Camera);
+	
 
     if ( g_ParticleEffectRight.LoadTexture( "Data/Textures/Particle-Texture.png" ) 
 		&& g_ParticleEffectLeft.LoadTexture("Data/Textures/Particle-Texture.png")
@@ -168,6 +172,7 @@ void DisplayGL()
 
     g_Camera.ApplyViewTransform();
 	board.Render();
+	graph.Render();
     DrawAxis( 20.0f, g_Camera.GetPivot() );
 
     g_ParticleEffectRight.Render();

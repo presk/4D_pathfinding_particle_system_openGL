@@ -2,6 +2,7 @@
 #include "ParticleEffect.h"
 #include "LampGenerator.h"
 #include "PivotCamera.h"
+#include "Node.h"
 
 const int ROAD = 0;
 const int ELSE = 1;
@@ -19,9 +20,10 @@ public:
 	std::vector<glm::vec3> _vertices;
 	void setObstructed(bool obs);
 	bool isObstructed();
+	Node * getNode();
 
 private:
-	
+	Node *_node;
 	bool _obstructed;
 	int _type;
 };

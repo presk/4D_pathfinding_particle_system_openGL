@@ -6,6 +6,7 @@
 #include <vector>
 #include <map>
 #include <algorithm>
+#include <set>
 
 #define _USE_MATH_DEFINES
 #include <math.h>
