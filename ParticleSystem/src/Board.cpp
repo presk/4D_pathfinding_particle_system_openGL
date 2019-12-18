@@ -103,13 +103,13 @@ void Board::RandomizeTileType()
 		{
 			SubTriangle* stu = ss[j]->getUpTriangle();
 			SubTriangle* stdown = ss[j]->getDownTriangle();
-			if (rand() % 10  < 2 && !(stu->getNode()->isPlayer()))
+			if (rand() % 10  < 2 && !(stu->getNode()->isPlayer()) && !(stu->getNode()->isTarget()))
 			{
-				//stu->setType(ELSE);
+				stu->setType(ELSE);
 			}
-			if (rand() % 10  < 2 && !(stu->getNode()->isPlayer()))
+			if (rand() % 10  < 2 && !(stdown->getNode()->isPlayer()) && !(stdown->getNode()->isTarget()))
 			{
-				//stdown->setType(ELSE);
+				stdown->setType(ELSE);
 			}
 		}
 	}
