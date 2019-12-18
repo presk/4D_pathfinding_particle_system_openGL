@@ -210,6 +210,7 @@ void IdleGL()
 		g_ParticleEffectHead.BuildVertexBuffer();
     }
 	g_ParticleEffectHead.AddParticles();
+
 	/*if (g_CrownGenerator.Origin.x != g_CrownGenerator.Course.x)
 	{
 		float distance = g_CrownGenerator.Course.x - g_CrownGenerator.Origin.x;
@@ -251,13 +252,13 @@ void KeyboardGL( unsigned char c, int x, int y )
 		g_right = !g_right;
 		if (g_right) 
 		{
-			g_CircleGeneratorRight.Origin = glm::vec3(10.0f * g_step, 0.0f, 20.0f);
-			g_ParticleEffectRight.GenerateParticles();
+			/*g_CircleGeneratorRight.Origin = glm::vec3(10.0f * g_step, 0.0f, 20.0f);
+			g_ParticleEffectRight.GenerateParticles();*/
 		}
 		else
 		{
-			g_CircleGeneratorLeft.Origin = glm::vec3(10.0f * g_step, 0.0f, 0.0f);
-			g_ParticleEffectLeft.GenerateParticles();
+			/*g_CircleGeneratorLeft.Origin = glm::vec3(10.0f * g_step, 0.0f, 0.0f);
+			g_ParticleEffectLeft.GenerateParticles();*/
 		}
 		//g_CrownGenerator.SetCourse(glm::vec3(10.0f * g_step, 0.0f, 0.0f));
 
@@ -270,13 +271,13 @@ void KeyboardGL( unsigned char c, int x, int y )
 		g_right = !g_right;
 		if (g_right)
 		{
-			g_CircleGeneratorRight.Origin = glm::vec3(10.0f * g_step, 0.0f, 20.0f);
-			g_ParticleEffectRight.GenerateParticles();
+			/*g_CircleGeneratorRight.Origin = glm::vec3(10.0f * g_step, 0.0f, 20.0f);
+			g_ParticleEffectRight.GenerateParticles();*/
 		}
 		else
 		{
-			g_CircleGeneratorLeft.Origin = glm::vec3(10.0f * g_step, 0.0f, 0.0f);
-			g_ParticleEffectLeft.GenerateParticles();
+			/*g_CircleGeneratorLeft.Origin = glm::vec3(10.0f * g_step, 0.0f, 0.0f);
+			g_ParticleEffectLeft.GenerateParticles();*/
 		}
 		//g_CrownGenerator.SetCourse(glm::vec3(10.0f * g_step, 0.0f, 0.0f));
 	}

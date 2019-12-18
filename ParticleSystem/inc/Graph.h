@@ -10,6 +10,7 @@ public:
 	~Graph();
 	void Render();
 	void findShortestPath();
+	void findShortestBackwardPath();
 	std::vector<Node*> getPath();
 	void setPath(std::vector<Node *> path);
 

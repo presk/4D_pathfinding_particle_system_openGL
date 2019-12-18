@@ -70,17 +70,15 @@ void Graph::findShortestPath()
 	{
 		if (!(n->isPlayer()))
 		{
-			glm::vec3 dist = targetNode->getPosition() - n->getPosition();
-			n->setH((int)glm::length(dist));
-			n->setF(99999999);
+			//glm::vec3 dist = targetNode->getPosition() - n->getPosition();
+			//n->setH((int)glm::length(dist));
+			n->setH(1);
+			n->setF(9999999999999);
 			n->setG(0);
 			n->setParentNode(NULL);
 		}
 		
 	}
-	typedef std::pair<int, Node*> nodePair;
-	//std::priority_queue<nodePair, std::vector<nodePair>, std::greater<nodePair> > openList;
-	//std::priority_queue<nodePair, std::vector<nodePair>, std::greater<nodePair> > closedList;
 	std::multiset<Node *> openList;
 	std::multiset<Node *> closedList;
 	startNode->setF(0);
@@ -130,12 +128,92 @@ void Graph::findShortestPath()
 		p = temp;
 		path.push_back(p);
 	}
-	std::vector<Node *> path2;
-	for (int i = path.size() -1; i > 0 ; i--)
+	
+	if (path.size() <= 1)
 	{
-		path2.push_back(path[i]);
+		findShortestBackwardPath();
 	}
-	_path = path2;
+	else
+	{
+		std::vector<Node *> path2;
+		for (int i = path.size() - 1; i > 0; i--)
+		{
+			path2.push_back(path[i]);
+		}
+		std::cout << "Path size: " << path.size() << std::endl;
+		_path = path2;
+	}
+	
+}
+void Graph::findShortestBackwardPath()
+{
+	std::vector<Node *> nodes = _board->getAllNodes();
+	Node * startNode = _board->getCheckpoint();
+	Node * targetNode =  _board->getAINode();
+	for (auto n : nodes)
+	{
+		if (!(n->isTarget()))
+		{
+			//glm::vec3 dist = targetNode->getPosition() - n->getPosition();
+			//n->setH((int)glm::length(dist));
+			n->setH(1);
+			n->setF(9999999999999);
+			n->setG(0);
+			n->setParentNode(NULL);
+		}
+
+	}
+	std::multiset<Node *> openList;
+	std::multiset<Node *> closedList;
+	startNode->setF(0);
+	startNode->setG(0);
+	openList.insert(startNode);
+	while (!openList.empty())
+	{
+		std::multiset<Node *>::iterator it;
+		it = openList.begin();
+		Node * node = *it;
+		openList.erase(node);
+		closedList.insert(node);
+		std::set<Node *> nodeSet = node->getCNodes();
+		for (auto nextNode : nodeSet)
+		{
+			if (nextNode->isPlayer())
+			{
+				nextNode->setParentNode(node);
+				break;
+			}
+			int oldG = nextNode->getG();
+			int newG = node->getG() + 1 + 1 * nextNode->isObstructed();
+			if (openList.find(nextNode) != openList.end() && newG < oldG)
+			{
+				openList.erase(nextNode);
+			}
+			if (closedList.find(nextNode) == closedList.end() && newG < oldG)
+			{
+				closedList.erase(nextNode);
+			}
+			if (openList.find(nextNode) == openList.end() && closedList.find(nextNode) == closedList.end())
+			{
+				nextNode->setG(newG);
+				nextNode->setF(nextNode->getG() + nextNode->getH());
+				nextNode->setParentNode(node);
+				openList.insert(nextNode);
+			}
+		}
+	}
+	Node * p = targetNode;
+	std::vector<Node *> path;
+	path.push_back(p);
+	while (p->getParentNode() != NULL)
+	{
+
+		Node * temp = p->getParentNode();
+		p = temp;
+		path.push_back(p);
+	}
+	std::cout << "Path size: " << path.size() << std::endl;
+	_path = path;
 }
 
 std::vector<Node*> Graph::getPath()
