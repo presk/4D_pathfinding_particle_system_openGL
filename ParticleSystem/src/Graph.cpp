@@ -122,7 +122,7 @@ void Graph::findShortestPath()
 			{
 				openList.erase(nextNode);
 			}
-			if (closedList.find(nextNode) == closedList.end() && newG < oldG)
+			if (closedList.find(nextNode) != closedList.end() && newG < oldG)
 			{
 				closedList.erase(nextNode);
 			}
@@ -208,7 +208,7 @@ void Graph::findShortestBackwardPath()
 			{
 				openList.erase(nextNode);
 			}
-			if (closedList.find(nextNode) == closedList.end() && newG < oldG)
+			if (closedList.find(nextNode) != closedList.end() && newG < oldG)
 			{
 				closedList.erase(nextNode);
 			}
