@@ -202,6 +202,7 @@ void IdleGL()
         g_ParticleEffectRight.Update(fDeltaTime);
 		g_ParticleEffectLeft.Update(fDeltaTime);
 		g_ParticleEffectHead.Update(fDeltaTime);
+		graph.Update(fDeltaTime);
     }
     else 
     {
@@ -210,15 +211,8 @@ void IdleGL()
 		g_ParticleEffectHead.BuildVertexBuffer();
     }
 	g_ParticleEffectHead.AddParticles();
-
-	/*if (g_CrownGenerator.Origin.x != g_CrownGenerator.Course.x)
-	{
-		float distance = g_CrownGenerator.Course.x - g_CrownGenerator.Origin.x;
-		if (std::abs(distance) < 0.1)
-			g_CrownGenerator.Origin.x = g_CrownGenerator.Course.x;
-		else
-			g_CrownGenerator.Origin.x += 0.1*distance;
-	}*/
+	
+	
     glutPostRedisplay();
 }
 

@@ -9,6 +9,7 @@ public:
 	Graph();
 	~Graph();
 	void Render();
+	void Update(float fDeltaTime);
 	void findShortestPath();
 	void findShortestBackwardPath();
 	std::vector<Node*> getPath();

@@ -116,6 +116,36 @@ void Board::RandomizeTileType()
 
 }
 
+bool Board::Update(float fDeltaTime, std::vector<Node *> path)
+{
+
+	//std::cout << " update" << std::endl;
+	glm::vec3 dist = glm::vec3(path[1]->getPosition().x - _AI->Origin.x, 0.0f, path[1]->getPosition().z - _AI->Origin.z);
+	if (glm::length(dist) < 1)
+	{
+		std::cout << " is inside dist" << std::endl;
+		setAINode(path[1]);
+		/*path[0]->setPlayer(false);
+		path[1]->setPlayer(true);*/
+		//_AI->SetCourse()
+		/*
+		_AI->Origin.x = _AI->Course.x;
+		_AI->Origin.z = _AI->Course.z;*/
+		return true;
+	}
+		
+	else
+	{
+		dist.x = dist.x  / 75;
+		dist.z = dist.z  / 75;
+		_AI->Origin.x += dist.x;
+		_AI->Origin.z += dist.z;
+		//g_CrownGenerator.Origin.x += 0.1*distance;
+		return false;
+	}
+	
+}
+
 std::vector <glm::vec3> Board::getAllRoadTriangles()
 {
 	std::vector<glm::vec3> roadTriangles;
@@ -175,6 +205,11 @@ glm::vec3 Board::getAIPos()
 	return _AI->Origin;
 }
 
+CrownGenerator * Board::getAI()
+{
+	return _AI;
+}
+
 Node * Board::getAINode()
 {
 	return _AINode;
@@ -189,4 +224,9 @@ void Board::setCheckpoint(Node * n)
 {
 	n->setTarget(true);
 	_checkpoint = n;
+}
+
+void Board::setAINode(Node * n)
+{
+	_AINode = n;
 }

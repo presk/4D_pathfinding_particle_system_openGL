@@ -13,14 +13,17 @@ public:
 	void AttachCamera(PivotCamera * cam);
 	void AttachAI(CrownGenerator * cg);
 	void RandomizeTileType();
+	bool Update(float fDeltaTime, std::vector<Node *> path);
 	std::vector<glm::vec3> getAllRoadTriangles();
 	std::vector<Node*> getAllNodes();
 	int getBoardSize();
 	int getTileCount();
 	glm::vec3 getAIPos();
+	CrownGenerator * getAI();
 	Node * getAINode();
 	Node * getCheckpoint();
 	void setCheckpoint(Node * n);
+	void setAINode(Node * n);
 
 private:
 	

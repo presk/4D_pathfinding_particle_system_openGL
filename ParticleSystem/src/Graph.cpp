@@ -61,6 +61,17 @@ void Graph::Render()
 	glPopAttrib();
 }
 
+void Graph::Update(float fDeltaTime)
+{
+	if (_board->Update(fDeltaTime, _path))
+	{
+		_path[0]->setPlayer(false);
+		_path[1]->setPlayer(true);
+		findShortestPath();
+		_board->getAI()->SetCourse(_path[1]->getPosition());
+	}
+}
+
 void Graph::findShortestPath()
 {
 	std::vector<Node *> nodes = _board->getAllNodes();
