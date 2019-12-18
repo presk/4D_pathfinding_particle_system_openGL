@@ -68,7 +68,7 @@ void Graph::Update(float fDeltaTime)
 		_path[0]->setPlayer(false);
 		_path[1]->setPlayer(true);
 		findShortestPath();
-		_board->getAI()->SetCourse(_path[1]->getPosition());
+		//_board->getAI()->SetCourse(_path[1]->getPosition());
 	}
 }
 
@@ -81,14 +81,20 @@ void Graph::findShortestPath()
 	{
 		if (!(n->isPlayer()))
 		{
-			//glm::vec3 dist = targetNode->getPosition() - n->getPosition();
-			//n->setH((int)glm::length(dist));
-			n->setH(1);
+			glm::vec3 dist = targetNode->getPosition() - n->getPosition();
+			glm::vec3 dist2 = startNode->getPosition() - n->getPosition();
+			glm::vec3 dist3 = targetNode->getPosition() - startNode->getPosition();
+			int backVal = 0;
+			if (glm::length(dist3) < glm::length(dist))
+			{
+				backVal = 100;
+			}
+			n->setH((int)glm::length(dist) + (int)glm::length(dist) + backVal);
+			//n->setH(1);
 			n->setF(9999999999999);
-			n->setG(0);
-			n->setParentNode(NULL);
+			n->setG(0);;
 		}
-		
+		n->setParentNode(NULL);
 	}
 	std::multiset<Node *> openList;
 	std::multiset<Node *> closedList;
@@ -131,27 +137,28 @@ void Graph::findShortestPath()
 	}
 	Node * p = targetNode;
 	std::vector<Node *> path;
-	path.push_back(p);
-	while(p->getParentNode() != NULL)
-	{
-		
-		Node * temp = p->getParentNode();
-		p = temp;
-		path.push_back(p);
-	}
 	
-	if (path.size() <= 1)
+	
+	if (targetNode->getParentNode() == NULL)
 	{
 		findShortestBackwardPath();
 	}
 	else
 	{
+		path.push_back(p);
+		while (p->getParentNode() != NULL)
+		{
+
+			Node * temp = p->getParentNode();
+			p = temp;
+			path.push_back(p);
+		}
 		std::vector<Node *> path2;
 		for (int i = path.size() - 1; i > 0; i--)
 		{
 			path2.push_back(path[i]);
 		}
-		std::cout << "Path size: " << path.size() << std::endl;
+		//std::cout << "Path size: " << path.size() << std::endl;
 		_path = path2;
 	}
 	
@@ -165,14 +172,15 @@ void Graph::findShortestBackwardPath()
 	{
 		if (!(n->isTarget()))
 		{
-			//glm::vec3 dist = targetNode->getPosition() - n->getPosition();
-			//n->setH((int)glm::length(dist));
-			n->setH(1);
+			glm::vec3 dist = targetNode->getPosition() - n->getPosition();
+			glm::vec3 dist2 = startNode->getPosition() - n->getPosition();
+			n->setH((int)glm::length(dist) + (int)glm::length(dist));
+			//n->setH(1);
 			n->setF(9999999999999);
 			n->setG(0);
-			n->setParentNode(NULL);
+			
 		}
-
+		n->setParentNode(NULL);
 	}
 	std::multiset<Node *> openList;
 	std::multiset<Node *> closedList;
@@ -223,7 +231,7 @@ void Graph::findShortestBackwardPath()
 		p = temp;
 		path.push_back(p);
 	}
-	std::cout << "Path size: " << path.size() << std::endl;
+	//std::cout << "Path size: " << path.size() << std::endl;
 	_path = path;
 }
 
@@ -275,7 +283,7 @@ void Graph::GenerateGraph()
 	//int bSize = _board->getBoardSize();
 	int tCount = _board->getTileCount();
 	std::vector<Node *> nodes = _board->getAllNodes();
-	std::cout << "# of nodes: " << nodes.size() << std::endl;
+	//std::cout << "# of nodes: " << nodes.size() << std::endl;
 	for (int i = 0; i < nodes.size(); i++)
 	{
 		if (nodes[i]->getType() == ROAD)
@@ -283,13 +291,14 @@ void Graph::GenerateGraph()
 			switch (i % 8)
 			{
 				case 0:
-				if (nodes[i + 1]->getType() == ROAD)
-				{
-					nodes[i]->addCNode(nodes[i + 1]);
-				}
+				
 				if (nodes[i + 3]->getType() == ROAD)
 				{
 					nodes[i]->addCNode(nodes[i + 3]);
+				}
+				if (nodes[i + 1]->getType() == ROAD)
+				{
+					nodes[i]->addCNode(nodes[i + 1]);
 				}
 				if (nodes[i + 5]->getType() == ROAD)
 				{
@@ -297,13 +306,14 @@ void Graph::GenerateGraph()
 				}
 				break;
 				case 1:
-				if ((i + 3 - (8 * tCount)) > 0 && nodes[i + 3 - 8 * tCount]->getType() == ROAD)
-				{
-					nodes[i]->addCNode(nodes[i + 3 - 8 * tCount]);
-				}
+				
 				if ((i + 1 - 8) > 0 && i % (tCount*8) > 7 && nodes[i + 1 - 8]->getType() == ROAD)
 				{
 					nodes[i]->addCNode(nodes[i + 1 - 8]);
+				}
+				if ((i + 3 - (8 * tCount)) > 0 && nodes[i + 3 - 8 * tCount]->getType() == ROAD)
+				{
+					nodes[i]->addCNode(nodes[i + 3 - 8 * tCount]);
 				}
 				if (nodes[i - 1]->getType() == ROAD)
 				{
@@ -311,13 +321,14 @@ void Graph::GenerateGraph()
 				}
 				break;
 				case 2:
-				if (nodes[i + 1]->getType() == ROAD)
-				{
-					nodes[i]->addCNode(nodes[i + 1]);
-				}
+				
 				if (nodes[i + 5]->getType() == ROAD)
 				{
 					nodes[i]->addCNode(nodes[i + 5]);
+				}
+				if (nodes[i + 1]->getType() == ROAD)
+				{
+					nodes[i]->addCNode(nodes[i + 1]);
 				}
 				if ((i - 1 + 8) < nodes.size() && i % (tCount * 8) < 32 && nodes[i - 1 + 8]->getType() == ROAD)
 				{
@@ -325,13 +336,14 @@ void Graph::GenerateGraph()
 				}
 				break;
 				case 3:
-				if (nodes[i - 1]->getType() == ROAD)
-				{
-					nodes[i]->addCNode(nodes[i - 1]);
-				}
+				
 				if (nodes[i - 3]->getType() == ROAD)
 				{
 					nodes[i]->addCNode(nodes[i - 3]);
+				}
+				if (nodes[i - 1]->getType() == ROAD)
+				{
+					nodes[i]->addCNode(nodes[i - 1]);
 				}
 				if ((i + 3 - (8 * tCount)) > 0  && nodes[i + 3 - (8 * tCount)]->getType() == ROAD)
 				{
@@ -339,13 +351,14 @@ void Graph::GenerateGraph()
 				}
 				break;
 				case 4:
-				if (nodes[i + 1]->getType() == ROAD)
-				{
-					nodes[i]->addCNode(nodes[i + 1]);
-				}
+				
 				if (nodes[i + 3]->getType() == ROAD)
 				{
 					nodes[i]->addCNode(nodes[i + 3]);
+				}
+				if (nodes[i + 1]->getType() == ROAD)
+				{
+					nodes[i]->addCNode(nodes[i + 1]);
 				}
 				if ((i - 3 + 8 * tCount) < nodes.size() && nodes[i - 3 + 8 * tCount]->getType() == ROAD)
 				{
@@ -353,13 +366,14 @@ void Graph::GenerateGraph()
 				}
 				break;
 				case 5:
-				if (nodes[i - 5]->getType() == ROAD)
-				{
-					nodes[i]->addCNode(nodes[i - 5]);
-				}
+				
 				if (nodes[i - 1]->getType() == ROAD)
 				{
 					nodes[i]->addCNode(nodes[i - 1]);
+				}
+				if (nodes[i - 5]->getType() == ROAD)
+				{
+					nodes[i]->addCNode(nodes[i - 5]);
 				}
 				if ((i + 1 - 8) > 0 && i % (tCount * 8) > 7 && nodes[i + 1 - 8]->getType() == ROAD)
 				{
@@ -367,13 +381,14 @@ void Graph::GenerateGraph()
 				}
 				break;
 				case 6:
-				if (nodes[i + 1]->getType() == ROAD)
-				{
-					nodes[i]->addCNode(nodes[i + 1]);
-				}
+				
 				if ((i - 1 + 8) < nodes.size() && i % (tCount * 8) < 32 && nodes[i - 1 + 8]->getType() == ROAD)
 				{
 					nodes[i]->addCNode(nodes[i - 1 + 8]);
+				}
+				if (nodes[i + 1]->getType() == ROAD)
+				{
+					nodes[i]->addCNode(nodes[i + 1]);
 				}
 				if ((i - 3 + 8 * tCount) < nodes.size() && nodes[i - 3 + 8 * tCount]->getType() == ROAD)
 				{
@@ -381,13 +396,14 @@ void Graph::GenerateGraph()
 				}
 				break;
 				case 7:
-				if (nodes[i - 1]->getType() == ROAD)
-				{
-					nodes[i]->addCNode(nodes[i - 1]);
-				}
+				
 				if (nodes[i - 3]->getType() == ROAD)
 				{
 					nodes[i]->addCNode(nodes[i - 3]);
+				}
+				if (nodes[i - 1]->getType() == ROAD)
+				{
+					nodes[i]->addCNode(nodes[i - 1]);
 				}
 				if (nodes[i - 5]->getType() == ROAD)
 				{

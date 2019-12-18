@@ -123,7 +123,7 @@ bool Board::Update(float fDeltaTime, std::vector<Node *> path)
 	glm::vec3 dist = glm::vec3(path[1]->getPosition().x - _AI->Origin.x, 0.0f, path[1]->getPosition().z - _AI->Origin.z);
 	if (glm::length(dist) < 1)
 	{
-		std::cout << " is inside dist" << std::endl;
+		//std::cout << " is inside dist" << std::endl;
 		setAINode(path[1]);
 		/*path[0]->setPlayer(false);
 		path[1]->setPlayer(true);*/
@@ -136,8 +136,8 @@ bool Board::Update(float fDeltaTime, std::vector<Node *> path)
 		
 	else
 	{
-		dist.x = dist.x  / 75;
-		dist.z = dist.z  / 75;
+		dist.x = dist.x  / 20;
+		dist.z = dist.z  / 20;
 		_AI->Origin.x += dist.x;
 		_AI->Origin.z += dist.z;
 		//g_CrownGenerator.Origin.x += 0.1*distance;
