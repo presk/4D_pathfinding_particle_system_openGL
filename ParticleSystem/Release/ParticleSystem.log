@@ -1,4 +1,5 @@
-﻿  Board.cpp
+﻿  ParticleSystemPCH.cpp
+  Board.cpp
 src\Board.cpp(28): warning C4018: '<': signed/unsigned mismatch
 src\Board.cpp(49): warning C4018: '<': signed/unsigned mismatch
 src\Board.cpp(99): warning C4018: '<': signed/unsigned mismatch
@@ -7,24 +8,29 @@ src\Board.cpp(122): warning C4018: '<': signed/unsigned mismatch
 src\Board.cpp(125): warning C4018: '<': signed/unsigned mismatch
 src\Board.cpp(149): warning C4018: '<': signed/unsigned mismatch
 src\Board.cpp(152): warning C4018: '<': signed/unsigned mismatch
+  Camera.cpp
+  CircleGenerator.cpp
+  CrownGenerator.cpp
+  ElapsedTime.cpp
   Graph.cpp
 src\Graph.cpp(34): warning C4018: '<': signed/unsigned mismatch
 src\Graph.cpp(48): warning C4018: '<': signed/unsigned mismatch
-src\Graph.cpp(182): warning C4018: '<': signed/unsigned mismatch
-src\Graph.cpp(225): warning C4018: '<': signed/unsigned mismatch
-src\Graph.cpp(253): warning C4018: '<': signed/unsigned mismatch
-src\Graph.cpp(277): warning C4018: '<': signed/unsigned mismatch
-src\Graph.cpp(281): warning C4018: '<': signed/unsigned mismatch
+src\Graph.cpp(190): warning C4018: '<': signed/unsigned mismatch
+src\Graph.cpp(233): warning C4018: '<': signed/unsigned mismatch
+src\Graph.cpp(261): warning C4018: '<': signed/unsigned mismatch
+src\Graph.cpp(285): warning C4018: '<': signed/unsigned mismatch
+src\Graph.cpp(289): warning C4018: '<': signed/unsigned mismatch
+  LampGenerator.cpp
+  main.cpp
   Node.cpp
+  ParticleEffect.cpp
+  PivotCamera.cpp
   SubSquare.cpp
 src\SubSquare.cpp(43): warning C4018: '<': signed/unsigned mismatch
   SubTriangle.cpp
   Tile.cpp
 src\Tile.cpp(31): warning C4018: '<': signed/unsigned mismatch
-  main.cpp
   Generating code
-  96 of 1066 functions ( 9.0%) were compiled, the rest were copied from previous compilation.
-    62 functions were new in current compilation
-    87 functions had inline decision re-evaluated but remain unchanged
+  All 1055 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   ParticleSystem.vcxproj -> E:\GitHub\477-Project\Release\ParticleSystem.exe

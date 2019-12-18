@@ -122,12 +122,20 @@ void Graph::findShortestPath()
 	}
 	Node * p = targetNode;
 	std::vector<Node *> path;
+	path.push_back(p);
 	while(p->getParentNode() != NULL)
 	{
-		path.insert(path.begin(), p);
-		p = p->getParentNode();
+		
+		Node * temp = p->getParentNode();
+		p = temp;
+		path.push_back(p);
 	}
-	_path = path;
+	std::vector<Node *> path2;
+	for (int i = path.size() -1; i > 0 ; i--)
+	{
+		path2.push_back(path[i]);
+	}
+	_path = path2;
 }
 
 std::vector<Node*> Graph::getPath()

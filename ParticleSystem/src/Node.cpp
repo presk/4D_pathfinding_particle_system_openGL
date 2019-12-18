@@ -6,6 +6,7 @@ Node::Node(glm::vec3 pos, int type, bool obs)
 	_position = pos;
 	_type = type;
 	_isObstructed = obs;
+	_parentNode = NULL;
 }
 
 Node::~Node()
