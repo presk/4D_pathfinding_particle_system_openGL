@@ -272,7 +272,7 @@ class Hyperobject {
 			return crossTris;
 		}
 
-		// Returns transformed 3D cross-section vertices arranged to draw as triangles
+		// Returns transformed 3D cross-section vertices arranged to draw as triangles and updates the bounding volume
 		vector<vec3> getVerts() {
 			vector<vec3> transformed;
 			vector<vec3> cross = getCrossTris();
