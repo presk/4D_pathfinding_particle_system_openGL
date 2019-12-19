@@ -1,5 +1,8 @@
-#include"ParticleSystemPCH.h"
+/*  Resource used:
+*	https://www.3dgep.com/simulating-particle-effects-using-opengl/
+*/
 
+#include"ParticleSystemPCH.h"
 #include "PivotCamera.h"
 
 

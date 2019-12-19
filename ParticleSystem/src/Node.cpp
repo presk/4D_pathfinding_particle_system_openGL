@@ -1,3 +1,13 @@
+/**
+* Authors:
+*	Keven Presseau-St-Laurent, 40000501
+*
+*
+*
+* Team:
+*	COMP477 F19, Team 8
+*/
+
 #include "ParticleSystemPCH.h"
 #include "Node.h"
 
@@ -14,10 +24,6 @@ Node::Node(glm::vec3 pos, int type, bool obs)
 
 Node::~Node()
 {
-	/*for (auto n : _connectedNodes)
-	{
-		delete n;
-	}*/
 }
 
 void Node::setType(int type)

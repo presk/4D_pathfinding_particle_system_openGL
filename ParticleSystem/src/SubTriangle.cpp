@@ -1,17 +1,21 @@
+/**
+* Authors:
+*	Keven Presseau-St-Laurent, 40000501
+*	Alexia Soucy, 40014822
+*
+*
+* Team:
+*	COMP477 F19, Team 8
+*/
+
 #include "ParticleSystemPCH.h"
 #include "SubTriangle.h"
 #include "..\inc\SubTriangle.h"
 
 
-/*SubTriangle::SubTriangle(std::vector<glm::vec3> vertices, int type, bool obs)
-{
-	_vertices = vertices;
-	_type = type;
-	_obstructed = obs;
-}*/
+
 SubTriangle::SubTriangle(std::vector<glm::vec3> vertices)
 {
-	//std::cout << "Triangle Creation Success!" << std::endl;
 	_vertices = vertices;
 	_obstructed = false;
 	_type = ROAD;

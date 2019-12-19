@@ -1,3 +1,8 @@
+/**
+* Resource used:
+*	https://www.3dgep.com/simulating-particle-effects-using-opengl/
+*/
+
 #pragma once
 
 struct Particle

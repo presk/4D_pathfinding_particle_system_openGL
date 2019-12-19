@@ -1,13 +1,21 @@
+/**
+* Authors:
+*	Keven Presseau-St-Laurent, 40000501
+*
+*
+*
+* Team:
+*	COMP477 F19, Team 8
+*/
+
 #include "ParticleSystemPCH.h"
 #include "SubSquare.h"
 #include "..\inc\SubSquare.h"
 
-SubSquare::SubSquare(glm::vec3 pos,float size/*, Tile * tile*/)
+SubSquare::SubSquare(glm::vec3 pos,float size)
 {
-	//std::cout << "Square Creation Success!" << std::endl;
 	_position = pos;
 	_size = size;
-	/*_tile = tile;*/
 	float offset = _size / 2;
 	std::vector<glm::vec3> sqVertices;
 	std::vector<glm::vec3> upVertices;
@@ -25,6 +33,7 @@ SubSquare::SubSquare(glm::vec3 pos,float size/*, Tile * tile*/)
 			sqVertices.push_back(sqVertex);
 		}
 	}
+	//Creates the vertice vector for the up and down triangle
 	upVertices.push_back(sqVertices[2]);
 	upVertices.push_back(sqVertices[3]);
 	upVertices.push_back(sqVertices[1]);

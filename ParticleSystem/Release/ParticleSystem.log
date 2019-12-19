@@ -1,15 +1,8 @@
-﻿  Board.cpp
-src\Board.cpp(28): warning C4018: '<': signed/unsigned mismatch
-src\Board.cpp(49): warning C4018: '<': signed/unsigned mismatch
-src\Board.cpp(99): warning C4018: '<': signed/unsigned mismatch
-src\Board.cpp(102): warning C4018: '<': signed/unsigned mismatch
-src\Board.cpp(153): warning C4018: '<': signed/unsigned mismatch
-src\Board.cpp(156): warning C4018: '<': signed/unsigned mismatch
-src\Board.cpp(180): warning C4018: '<': signed/unsigned mismatch
-src\Board.cpp(183): warning C4018: '<': signed/unsigned mismatch
+﻿  Tile.cpp
+src\Tile.cpp(41): warning C4018: '<': signed/unsigned mismatch
   Generating code
-  3 of 1241 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+  28 of 1218 functions ( 2.3%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    10 functions had inline decision re-evaluated but remain unchanged
+    1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   ParticleSystem.vcxproj -> E:\GitHub\477-Project\Release\ParticleSystem.exe

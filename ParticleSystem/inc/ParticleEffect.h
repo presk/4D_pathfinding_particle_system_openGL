@@ -1,3 +1,8 @@
+/**
+* Resource used:
+*	https://www.3dgep.com/simulating-particle-effects-using-opengl/
+*/
+
 #pragma once
 
 #include "Particle.h"
@@ -31,13 +36,14 @@ public:
     void GenerateParticles();
 	void AddParticles(int amount);
 	void RemoveDeadParticles();
+
+
     virtual void Update( float fDeltaTime );
     virtual void Render();
 
     bool LoadTexture( const std::string& fileName );
     void Resize( unsigned int numParticles );
-	void Clamp(float * f, float * f2);
-	float Clamp(float f);
+	float Clamp(float f);								//Clamps vlue to avoid extremes
 
 protected:
 

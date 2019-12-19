@@ -1,3 +1,6 @@
+/*  Resource used:
+*	https://www.3dgep.com/simulating-particle-effects-using-opengl/
+*/
 #pragma once;
 
 // Generate a random number between [0..1)

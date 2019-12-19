@@ -1,3 +1,16 @@
+/**
+* Authors:
+*	Keven Presseau-St-Laurent, 40000501
+*
+*
+*
+* Team:
+*	COMP477 F19, Team 8
+*
+* Resource used:
+*	https://www.3dgep.com/simulating-particle-effects-using-opengl/
+*/
+
 #include "ParticleSystemPCH.h"
 #include "ParticleGenerator.h"
 #include "Camera.h"
@@ -148,9 +161,7 @@ void ParticleEffect::Update(float DeltaTime)
     {
         Particle& particle = _Particles[i];
         particle.m_fAge += DeltaTime;
-        //float lifeRatio = glm::saturate(particle.m_fAge / particle.m_fLifeTime);
-		float lifeRatio = Clamp(particle.m_fAge / particle.m_fLifeTime);
-		//float lifeRatio = 0.2f;
+		float lifeRatio = Clamp(particle.m_fAge / particle.m_fLifeTime);//avoids extreme values
         particle.m_Velocity += ( _Gravity * DeltaTime );
 
 		//Stops the particules from going underground
@@ -158,9 +169,7 @@ void ParticleEffect::Update(float DeltaTime)
 		else { particle.m_Position += (particle.m_Velocity * DeltaTime); }
 		glm::vec3 pCDist = particle.m_Position;
 		pCDist.y = 0.0f;
-		//Sets a color depending on where the particule is
-		//particle.m_Color = glm::vec4(acosf(pCDist.x/glm::length(pCDist)), 0.05f * particle.m_Position.y, asinf(pCDist.z / glm::length(pCDist)), 1);//m_ColorInterpolator.GetValue( lifeRatio );
-		particle.m_Color = glm::vec4(1.0f, 1.0f,1.0f, 1.0f);
+		particle.m_Color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f); //White
 		//Rotates the particules as they move
 		particle.m_fRotate = glm::lerp<float>( 0.0f, 720.0f, lifeRatio );
 
@@ -211,26 +220,7 @@ void ParticleEffect::Resize( unsigned int numParticles )
     _VertexBuffer.resize( numParticles * 4, Vertex() );
 }
 
-void ParticleEffect::Clamp(float * f, float * f2)
-{
 
-	if (*f < 0)
-	{
-		*f = 0.1f;
-	}
-	else if (*f > 1)
-	{
-		*f = 0.9f;
-	}
-	if (*f2 < 0)
-	{
-		*f2 = 0.1f;
-	}
-	else if (*f2 > 1)
-	{
-		*f2 = 0.9f;
-	}
-}
 
 float ParticleEffect::Clamp(float f)
 {

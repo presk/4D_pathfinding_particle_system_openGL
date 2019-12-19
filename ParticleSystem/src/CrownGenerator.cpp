@@ -1,3 +1,16 @@
+/**
+* Authors:
+*	Keven Presseau-St-Laurent, 40000501
+*
+*
+*
+* Team:
+*	COMP477 F19, Team 8
+*
+* Resource used:
+*	https://www.3dgep.com/simulating-particle-effects-using-opengl/
+*/
+
 #include "ParticleSystemPCH.h"
 #include "Random.h"
 #include "CrownGenerator.h"
@@ -42,7 +55,7 @@ void CrownGenerator::GenerateParticle(Particle & particle)
 	particle.m_fAge = 0;
 }
 
-//Defines the destination point after a movement
+
 void CrownGenerator::SetCourse(glm::vec3 course)
 {
 	Course = course;

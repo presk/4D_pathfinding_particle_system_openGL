@@ -1,3 +1,7 @@
+/* Resource used:
+*	https://www.3dgep.com/simulating-particle-effects-using-opengl/
+*/
+
 #include "ParticleSystemPCH.h"
 #include "ElapsedTime.h"
 
