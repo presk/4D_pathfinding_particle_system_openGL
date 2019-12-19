@@ -41,7 +41,7 @@ void Camera::AddRoll( float fRoll )
 void Camera::AddRotation( const glm::quat& rot )
 {
     glm::quat finalRotate = rot * glm::quat( m_Rotate );
-    m_Rotate = glm::eularAngles( finalRotate );
+    m_Rotate = glm::eulerAngles( finalRotate );
 }
 
 void Camera::TranslateX( float x )

@@ -1,16 +1,15 @@
-﻿  Graph.cpp
-src\Graph.cpp(34): warning C4018: '<': signed/unsigned mismatch
-src\Graph.cpp(48): warning C4018: '<': signed/unsigned mismatch
-src\Graph.cpp(94): warning C4309: 'argument': truncation of constant value
-src\Graph.cpp(179): warning C4309: 'argument': truncation of constant value
-src\Graph.cpp(287): warning C4018: '<': signed/unsigned mismatch
-src\Graph.cpp(333): warning C4018: '<': signed/unsigned mismatch
-src\Graph.cpp(363): warning C4018: '<': signed/unsigned mismatch
-src\Graph.cpp(385): warning C4018: '<': signed/unsigned mismatch
-src\Graph.cpp(393): warning C4018: '<': signed/unsigned mismatch
+﻿  Board.cpp
+src\Board.cpp(28): warning C4018: '<': signed/unsigned mismatch
+src\Board.cpp(49): warning C4018: '<': signed/unsigned mismatch
+src\Board.cpp(99): warning C4018: '<': signed/unsigned mismatch
+src\Board.cpp(102): warning C4018: '<': signed/unsigned mismatch
+src\Board.cpp(153): warning C4018: '<': signed/unsigned mismatch
+src\Board.cpp(156): warning C4018: '<': signed/unsigned mismatch
+src\Board.cpp(180): warning C4018: '<': signed/unsigned mismatch
+src\Board.cpp(183): warning C4018: '<': signed/unsigned mismatch
   Generating code
-  2 of 1063 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+  3 of 1241 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    13 functions had inline decision re-evaluated but remain unchanged
+    10 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   ParticleSystem.vcxproj -> E:\GitHub\477-Project\Release\ParticleSystem.exe

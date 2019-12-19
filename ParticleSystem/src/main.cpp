@@ -6,6 +6,9 @@
 #include "CrownGenerator.h"
 #include "Board.h"
 #include "Graph.h"
+#include "obstacles.h"
+
+
 
 PivotCamera g_Camera;
 CircleGenerator g_CircleGeneratorRight;
@@ -17,7 +20,7 @@ ParticleEffect g_ParticleEffect(1000);
 #else
 ParticleEffect g_ParticleEffectRight(100000);
 ParticleEffect g_ParticleEffectLeft(100000);
-ParticleEffect g_ParticleEffectHead(1000);
+ParticleEffect g_ParticleEffectHead(100);
 #endif 
 
 int g_iWindowWidth = 1280;
@@ -27,11 +30,12 @@ int g_iErrorCode = 0;
 
 bool g_bLeftMouseDown = false;
 bool g_bRightMouseDown = false;
-
+void mouseWheel(int, int, int, int);
 bool g_bUpdate = true;
 
 Board board(100, 10);
 Graph graph;
+ObstacleSet obstacles;
 glm::vec2 g_MouseCurrent = glm::vec2(0);
 glm::vec2 g_MousePrevious = glm::vec2(0);
 glm::vec2 g_MouseDelta = glm::vec2(0);
@@ -49,6 +53,7 @@ void DisplayGL();
 void IdleGL();
 void KeyboardGL( unsigned char c, int x, int y );
 void MouseGL( int button, int state, int x, int y );
+
 void MotionGL( int x, int y );
 void ReshapeGL( int w, int h );
 
@@ -66,14 +71,17 @@ int main( int argc, char* argv[] )
 	board.AttachCamera(&g_Camera);
 	board.AttachAI(&g_CrownGenerator);
 	board.RandomizeTileType();
+	graph = Graph(&board, &g_Camera/*, &obstacles*/);
+	obstacles = ObstacleSet(100, 50, &g_Camera);
 	//board.setCheckPoints();
 	
-	graph = Graph(&board, &g_Camera);
+	//std::vector<Node *>p = graph.getPath();
+
 	
 
     if ( g_ParticleEffectRight.LoadTexture( "Data/Textures/Particle-Texture.png" ) 
 		&& g_ParticleEffectLeft.LoadTexture("Data/Textures/Particle-Texture.png")
-		&& g_ParticleEffectHead.LoadTexture("Data/Textures/snowtexture.png"))
+		&& g_ParticleEffectHead.LoadTexture("Data/Textures/ctext.png"))
     {
         std::cout << "Successfully loaded particle texture." << std::endl;
     }
@@ -179,6 +187,7 @@ void DisplayGL()
     g_Camera.ApplyViewTransform();
 	board.Render();
 	graph.Render();
+	obstacles.Render();
     DrawAxis( 20.0f, g_Camera.GetPivot() );
 
     g_ParticleEffectRight.Render();
@@ -199,18 +208,22 @@ void IdleGL()
 
     if ( g_bUpdate )
     {
-        g_ParticleEffectRight.Update(fDeltaTime);
-		g_ParticleEffectLeft.Update(fDeltaTime);
 		g_ParticleEffectHead.Update(fDeltaTime);
-		graph.Update(fDeltaTime);
+		graph.Update();
+		if (graph._targetReached)
+		{
+			{
+				// Cleanup up and quit
+				exit(0);
+			}
+		}
+		
     }
     else 
     {
-        g_ParticleEffectRight.BuildVertexBuffer();
-		g_ParticleEffectLeft.BuildVertexBuffer();
 		g_ParticleEffectHead.BuildVertexBuffer();
     }
-	g_ParticleEffectHead.AddParticles();
+	g_ParticleEffectHead.AddParticles(100);
 	
 	
     glutPostRedisplay();
@@ -229,7 +242,11 @@ void KeyboardGL( unsigned char c, int x, int y )
             g_bUpdate = !g_bUpdate;
         }
         break;
-  
+	case 'f':
+	case 'F':
+		// Toggle wireframe
+		obstacles.toggleWireframe();
+		break;
     case 'r':
     case 'R':
         {
@@ -291,16 +308,39 @@ void KeyboardGL( unsigned char c, int x, int y )
 
 void MouseGL( int button, int state, int x, int y )
 {
-    if ( button == GLUT_LEFT_BUTTON )
-    {
-        g_bLeftMouseDown = ( state == GLUT_DOWN );
-    }
-    else if ( button == GLUT_RIGHT_BUTTON )
-    {
-        g_bRightMouseDown = ( state == GLUT_DOWN );
-    }
-    g_MousePrevious = glm::vec2( x, y );
-
+	if (button == GLUT_RIGHT_BUTTON && Hyperobject::threshold < 2.5f) {
+		Hyperobject::setDimensionalThreshold(Hyperobject::threshold + 0.1f);
+		obstacles.computeCross();
+		std::vector<Node *> n = board.getAllNodes();
+		for (auto node : n)
+		{
+			if (obstacles.testNode(node->getPosition()))
+			{
+				node->setObstructed(true);
+			}
+			else
+			{
+				node->setObstructed(false);
+			}
+		}
+	}
+	else if (button == GLUT_LEFT_BUTTON && Hyperobject::threshold > -2.5f) {
+		Hyperobject::setDimensionalThreshold(Hyperobject::threshold - 0.1f);
+		obstacles.computeCross();
+		std::vector<Node *> n = board.getAllNodes();
+		for (auto node : n)
+		{
+			if (obstacles.testNode(node->getPosition()))
+			{
+				node->setObstructed(true);
+			}
+			else
+			{
+				node->setObstructed(false);
+			}
+		}
+	}
+	
 }
 
 void MotionGL( int x, int y )

@@ -82,12 +82,12 @@ void Board::AttachAI(CrownGenerator * cg)
 {
 	_AI = cg;
 	std::vector<Node *> nodes = getAllNodes();
-	int randInt = rand() % ((_tileCount - 2) * 8)  + _tileCount + 8;
-	_AINode = nodes[randInt];
+	int randInt = rand() % (7)  + 3;
+	_AINode = nodes[_tileCount * 7];
 	_AINode->setPlayer(true);
 	glm::vec3 pos = _AINode->getPosition();
 	_AI->Origin = pos + glm::vec3(0, 10.0f, 0);
-	Node * n = nodes[nodes.size() - randInt];
+	Node * n = nodes[nodes.size()-1 - 4 * _tileCount - randInt];
 	setCheckpoint(n);
 
 }
@@ -103,46 +103,47 @@ void Board::RandomizeTileType()
 		{
 			SubTriangle* stu = ss[j]->getUpTriangle();
 			SubTriangle* stdown = ss[j]->getDownTriangle();
-			if (rand() % 10  < 2 && !(stu->getNode()->isPlayer()) && !(stu->getNode()->isTarget()))
+			stu->setType(ROAD);
+			stu->getNode()->setType(ROAD);
+			stdown->setType(ROAD);
+			stdown->getNode()->setType(ROAD);
+			if (rand() % 10  < 3 && !(stu->getNode()->isObstructed()) && !(stu->getNode()->isPlayer()) && !(stu->getNode()->isTarget()))
 			{
 				stu->setType(ELSE);
+				stu->getNode()->setType(ELSE);
 			}
-			if (rand() % 10  < 2 && !(stdown->getNode()->isPlayer()) && !(stdown->getNode()->isTarget()))
+			if (rand() % 10  < 3 && !(stdown->getNode()->isObstructed()) && !(stdown->getNode()->isPlayer()) && !(stdown->getNode()->isTarget()))
 			{
 				stdown->setType(ELSE);
+				stdown->getNode()->setType(ELSE);
 			}
 		}
 	}
 
 }
 
-bool Board::Update(float fDeltaTime, std::vector<Node *> path)
+bool Board::Update(std::vector<Node *> path)
 {
+	if (path.size() > 1) 
+	{
+		glm::vec3 dist = glm::vec3(path[1]->getPosition().x - _AI->Origin.x, 0.0f, path[1]->getPosition().z - _AI->Origin.z);
+		if (glm::length(dist) < 1)
+		{
+			setAINode(path[1]);
+			return true;
+		}
 
-	//std::cout << " update" << std::endl;
-	glm::vec3 dist = glm::vec3(path[1]->getPosition().x - _AI->Origin.x, 0.0f, path[1]->getPosition().z - _AI->Origin.z);
-	if (glm::length(dist) < 1)
-	{
-		//std::cout << " is inside dist" << std::endl;
-		setAINode(path[1]);
-		/*path[0]->setPlayer(false);
-		path[1]->setPlayer(true);*/
-		//_AI->SetCourse()
-		/*
-		_AI->Origin.x = _AI->Course.x;
-		_AI->Origin.z = _AI->Course.z;*/
-		return true;
+		else
+		{
+			dist.x = dist.x / 20;
+			dist.z = dist.z / 20;
+			_AI->Origin.x += dist.x;
+			_AI->Origin.z += dist.z;
+			//g_CrownGenerator.Origin.x += 0.1*distance;
+			return false;
+		}
 	}
-		
-	else
-	{
-		dist.x = dist.x  / 20;
-		dist.z = dist.z  / 20;
-		_AI->Origin.x += dist.x;
-		_AI->Origin.z += dist.z;
-		//g_CrownGenerator.Origin.x += 0.1*distance;
-		return false;
-	}
+	
 	
 }
 
@@ -175,7 +176,7 @@ std::vector <glm::vec3> Board::getAllRoadTriangles()
 
 std::vector<Node*> Board::getAllNodes()
 {
-	std::vector<Node*> roadTriangles;
+	std::vector<Node*> Triangles;
 	for (int i = 0; i < _tiles.size(); i++)
 	{
 		std::vector<SubSquare*> ss = _tiles[i]->getAllSquares();
@@ -187,7 +188,7 @@ std::vector<Node*> Board::getAllNodes()
 			roadTriangles.push_back(stdown->getNode());
 		}
 	}
-	return roadTriangles;
+	return Triangles;
 }
 
 int Board::getBoardSize()

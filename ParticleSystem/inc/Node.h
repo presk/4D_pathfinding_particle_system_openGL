@@ -11,11 +11,12 @@ public:
 	void addCNode(Node * n);
 	void setPlayer(bool p);
 	void setTarget(bool t);
+	void setUsed(bool u);
 	void setG(int g);
 	void setH(int h);
 	void setF(int f);
 	void setParentNode(Node * n);
-	std::set<Node *> getCNodes();
+	std::vector<Node *> getCNodes();
 	int getType();
 	int getG();
 	int getH();
@@ -25,17 +26,19 @@ public:
 	bool isObstructed();
 	bool isPlayer();
 	bool isTarget();
+	bool wasUsed();
 	bool operator<(const Node &n) const { return _f < n._f; }
 
 
 private:
-	std::set<Node *> _connectedNodes;
+	std::vector<Node *> _connectedNodes;
 	Node * _parentNode;
 	glm::vec3 _position;
 	int _type;
 	bool _isObstructed;
 	bool _isTarget;
 	bool _isPlayer;
+	bool _wasUsed;
 	int _g;
 	int _h;
 	int _f;

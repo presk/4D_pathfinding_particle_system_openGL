@@ -6,7 +6,10 @@ Node::Node(glm::vec3 pos, int type, bool obs)
 	_position = pos;
 	_type = type;
 	_isObstructed = obs;
+	_isPlayer = false;
+	_isTarget = false;
 	_parentNode = NULL;
+	_wasUsed = false;
 }
 
 Node::~Node()
@@ -29,7 +32,7 @@ void Node::setObstructed(bool obs)
 
 void Node::addCNode(Node * n)
 {
-	_connectedNodes.insert(n);
+	_connectedNodes.push_back(n);
 }
 
 void Node::setPlayer(bool p)
@@ -40,6 +43,11 @@ void Node::setPlayer(bool p)
 void Node::setTarget(bool t)
 {
 	_isTarget = t;
+}
+
+void Node::setUsed(bool u)
+{
+	_wasUsed = u;
 }
 
 void Node::setG(int g)
@@ -62,7 +70,7 @@ void Node::setParentNode(Node * n)
 	_parentNode = n;
 }
 
-std::set<Node*> Node::getCNodes()
+std::vector<Node*> Node::getCNodes()
 {
 	return _connectedNodes;
 }
@@ -111,4 +119,9 @@ bool Node::isPlayer()
 bool Node::isTarget()
 {
 	return _isTarget;
+}
+
+bool Node::wasUsed()
+{
+	return _wasUsed;
 }

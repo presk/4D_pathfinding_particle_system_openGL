@@ -113,5 +113,14 @@
     <ClInclude Include="inc\Node.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="inc\gl4d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\dop18.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\obstacles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -13,7 +13,7 @@ public:
 	void AttachCamera(PivotCamera * cam);
 	void AttachAI(CrownGenerator * cg);
 	void RandomizeTileType();
-	bool Update(float fDeltaTime, std::vector<Node *> path);
+	bool Update(std::vector<Node *> path);
 	std::vector<glm::vec3> getAllRoadTriangles();
 	std::vector<Node*> getAllNodes();
 	int getBoardSize();

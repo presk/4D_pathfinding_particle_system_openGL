@@ -67,9 +67,9 @@ void ParticleEffect::GenerateParticles()
     }
 }
 //Adds more particles
-void ParticleEffect::AddParticles()
+void ParticleEffect::AddParticles(int amount)
 {
-	for (int i = 0; i < 500; i++)
+	for (int i = 0; i < amount; i++)
 	{
 		Particle particle = Particle();
 		GenerateParticle(particle);
@@ -84,7 +84,7 @@ void ParticleEffect::RemoveDeadParticles()
 
 	for (std::vector<Particle>::iterator iter = _Particles.begin(); iter != _Particles.end(); ++iter)
 	{
-		if (iter->m_Position.y <= 0)
+		if (iter->m_Position.y <= 0.2)
 		{
 			_Particles.erase(iter);
 			break;
@@ -148,7 +148,9 @@ void ParticleEffect::Update(float DeltaTime)
     {
         Particle& particle = _Particles[i];
         particle.m_fAge += DeltaTime;
-        float lifeRatio = glm::saturate(particle.m_fAge / particle.m_fLifeTime);
+        //float lifeRatio = glm::saturate(particle.m_fAge / particle.m_fLifeTime);
+		float lifeRatio = Clamp(particle.m_fAge / particle.m_fLifeTime);
+		//float lifeRatio = 0.2f;
         particle.m_Velocity += ( _Gravity * DeltaTime );
 
 		//Stops the particules from going underground
@@ -157,7 +159,8 @@ void ParticleEffect::Update(float DeltaTime)
 		glm::vec3 pCDist = particle.m_Position;
 		pCDist.y = 0.0f;
 		//Sets a color depending on where the particule is
-		particle.m_Color = glm::vec4(acosf(pCDist.x/glm::length(pCDist)), 0.05f * particle.m_Position.y, asinf(pCDist.z / glm::length(pCDist)), 1);//m_ColorInterpolator.GetValue( lifeRatio );
+		//particle.m_Color = glm::vec4(acosf(pCDist.x/glm::length(pCDist)), 0.05f * particle.m_Position.y, asinf(pCDist.z / glm::length(pCDist)), 1);//m_ColorInterpolator.GetValue( lifeRatio );
+		particle.m_Color = glm::vec4(1.0f, 1.0f,1.0f, 1.0f);
 		//Rotates the particules as they move
 		particle.m_fRotate = glm::lerp<float>( 0.0f, 720.0f, lifeRatio );
 
@@ -206,4 +209,39 @@ void ParticleEffect::Resize( unsigned int numParticles )
 {
     _Particles.resize( numParticles,  Particle() );
     _VertexBuffer.resize( numParticles * 4, Vertex() );
+}
+
+void ParticleEffect::Clamp(float * f, float * f2)
+{
+
+	if (*f < 0)
+	{
+		*f = 0.1f;
+	}
+	else if (*f > 1)
+	{
+		*f = 0.9f;
+	}
+	if (*f2 < 0)
+	{
+		*f2 = 0.1f;
+	}
+	else if (*f2 > 1)
+	{
+		*f2 = 0.9f;
+	}
+}
+
+float ParticleEffect::Clamp(float f)
+{
+	float val;
+	if (f < 0)
+	{
+		val = 0.4f;
+	}
+	else if (f > 1)
+	{
+		val = 0.6f;
+	}
+	return val;
 }

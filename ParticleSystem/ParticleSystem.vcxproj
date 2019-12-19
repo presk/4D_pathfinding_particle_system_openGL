@@ -75,7 +75,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>.\src;inc;..\externals\glm-0.9.1;..\externals\boost_1_46_0;..\externals\Simple OpenGL Image Library\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\externals;.\src;inc;..\externals\boost_1_46_0;..\externals\Simple OpenGL Image Library\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_SECURE_SCL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -120,10 +120,13 @@
     <ClInclude Include="inc\Camera.h" />
     <ClInclude Include="inc\CircleGenerator.h" />
     <ClInclude Include="inc\CrownGenerator.h" />
+    <ClInclude Include="inc\dop18.h" />
     <ClInclude Include="inc\ElapsedTime.h" />
+    <ClInclude Include="inc\gl4d.h" />
     <ClInclude Include="inc\Graph.h" />
     <ClInclude Include="inc\LampGenerator.h" />
     <ClInclude Include="inc\Node.h" />
+    <ClInclude Include="inc\obstacles.h" />
     <ClInclude Include="inc\Particle.h" />
     <ClInclude Include="inc\ParticleEffect.h" />
     <ClInclude Include="inc\ParticleGenerator.h" />

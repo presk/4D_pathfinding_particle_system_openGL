@@ -1,10 +1,13 @@
 #include "ParticleSystemPCH.h"
 #include "Graph.h"
 
-Graph::Graph(Board * board, PivotCamera * camera)
+Graph::Graph(Board * board, PivotCamera * camera/*, ObstacleSet * o*/)
 {
 	_board = board;
 	_camera = camera;
+	//_obstacles = o;
+	_PathIsSet = false;
+	_targetReached = false;
 	GenerateGraph();
 }
 
@@ -28,12 +31,12 @@ void Graph::Render()
 	//glScalef(fScale, fScale, fScale);
 	glColor3f(1.0f, 1.0f, 1.0f);
 	//std::vector<glm::vec3> roadTriangles = getAllRoadTriangles();
-	std::vector<Node*> nodes = _board->getAllNodes();
+	//std::vector<Node*> nodes = _board->getAllNodes();
 	glBegin(GL_LINES);
 	{
-		for (int i = 0; i < nodes.size(); i++)
+		/*for (int i = 0; i < nodes.size(); i++)
 		{
-			std::set<Node *> cNodes = nodes[i]->getCNodes();
+			std::vector<Node *> cNodes = nodes[i]->getCNodes();
 			for (auto n : cNodes)
 			{
 				glm::vec3 pos = nodes[i]->getPosition();
@@ -41,8 +44,8 @@ void Graph::Render()
 				glm::vec3 pos2 = n->getPosition();
 				glVertex3f(pos2.x, pos2.y, pos2.z);
 			}
-		}
-		glColor3f(1.0f, 0.0f, 0.0f);
+		}*/
+		glColor3f(1.0f, 1.0f, 1.0f);
 		if (!_path.empty())
 		{
 			for (int i = 0; i < _path.size() - 1; i++)
@@ -61,22 +64,38 @@ void Graph::Render()
 	glPopAttrib();
 }
 
-void Graph::Update(float fDeltaTime)
+void Graph::Update()
 {
-	if (_board->Update(fDeltaTime, _path))
+	if (!_targetReached && _PathIsSet && _path.size() > 1)
 	{
-		_path[0]->setPlayer(false);
-		_path[1]->setPlayer(true);
-		findShortestPath();
-		//_board->getAI()->SetCourse(_path[1]->getPosition());
+		if (_path[1]->isTarget())
+		{
+			_targetReached = true;
+			std::cout << "Target Reached !" << std::endl;
+		}
+		else if (_board->Update(_path))
+		{
+			_path[0]->setPlayer(false);
+			_path[0]->setUsed(true);
+			_path[1]->setPlayer(true);
+			findShortestPath();
+			//_board->getAI()->SetCourse(_path[1]->getPosition());
+		}
 	}
+	else if (!_targetReached)
+	{
+		findShortestPath();
+	}
+	
 }
 
 void Graph::findShortestPath()
 {
+	//std::cout << "Finding Path" << std::endl;
 	std::vector<Node *> nodes = _board->getAllNodes();
 	Node * startNode = _board->getAINode();
 	Node * targetNode = _board->getCheckpoint();
+	//_PathIsSet = false;
 	for (auto n : nodes)
 	{
 		if (!(n->isPlayer()))
@@ -108,7 +127,7 @@ void Graph::findShortestPath()
 		Node * node = *it;
 		openList.erase(node);
 		closedList.insert(node);
-		std::set<Node *> nodeSet = node->getCNodes();
+		std::vector<Node *> nodeSet = node->getCNodes();
 		for (auto nextNode : nodeSet)
 		{
 			if (nextNode->isTarget())
@@ -116,34 +135,34 @@ void Graph::findShortestPath()
 				nextNode->setParentNode(node);
 				break;
 			}
-			int oldG = nextNode->getG();
-			int newG = node->getG() + 1 + 1 * nextNode->isObstructed();
-			if ( openList.find(nextNode) != openList.end() && newG < oldG)
+			if (!nextNode->wasUsed()) 
 			{
-				openList.erase(nextNode);
+				int oldG = nextNode->getG();
+				int newG = node->getG() + 1 + 300 * nextNode->isObstructed();
+				if (openList.find(nextNode) != openList.end() && newG < oldG)
+				{
+					openList.erase(nextNode);
+				}
+				if (closedList.find(nextNode) != closedList.end() && newG < oldG)
+				{
+					closedList.erase(nextNode);
+				}
+				if (openList.find(nextNode) == openList.end() && closedList.find(nextNode) == closedList.end())
+				{
+					nextNode->setG(newG);
+					nextNode->setF(nextNode->getG() + nextNode->getH());
+					nextNode->setParentNode(node);
+					openList.insert(nextNode);
+				}
 			}
-			if (closedList.find(nextNode) != closedList.end() && newG < oldG)
-			{
-				closedList.erase(nextNode);
-			}
-			if (openList.find(nextNode) == openList.end() && closedList.find(nextNode) == closedList.end())
-			{
-				nextNode->setG(newG);
-				nextNode->setF(nextNode->getG() + nextNode->getH());
-				nextNode->setParentNode(node);
-				openList.insert(nextNode);
-			}
+			
 		}
 	}
 	Node * p = targetNode;
 	std::vector<Node *> path;
 	
 	
-	if (targetNode->getParentNode() == NULL)
-	{
-		findShortestBackwardPath();
-	}
-	else
+	if (targetNode->getParentNode() != NULL)
 	{
 		path.push_back(p);
 		while (p->getParentNode() != NULL)
@@ -154,86 +173,22 @@ void Graph::findShortestPath()
 			path.push_back(p);
 		}
 		std::vector<Node *> path2;
-		for (int i = path.size() - 1; i > 0; i--)
+		for (int i = path.size() - 1; i >= 0; i--)
 		{
 			path2.push_back(path[i]);
 		}
-		//std::cout << "Path size: " << path.size() << std::endl;
+		std::cout << "Path size: " << path.size() << std::endl;
 		_path = path2;
+		_PathIsSet = true;
 	}
-	
+	else if(!_PathIsSet)
+	{
+		std::cout << "no solution" << std::endl;
+		_board->RandomizeTileType();
+		GenerateGraph();
+	}
 }
-void Graph::findShortestBackwardPath()
-{
-	std::vector<Node *> nodes = _board->getAllNodes();
-	Node * startNode = _board->getCheckpoint();
-	Node * targetNode =  _board->getAINode();
-	for (auto n : nodes)
-	{
-		if (!(n->isTarget()))
-		{
-			glm::vec3 dist = targetNode->getPosition() - n->getPosition();
-			glm::vec3 dist2 = startNode->getPosition() - n->getPosition();
-			n->setH((int)glm::length(dist) + (int)glm::length(dist));
-			//n->setH(1);
-			n->setF(9999999999999);
-			n->setG(0);
-			
-		}
-		n->setParentNode(NULL);
-	}
-	std::multiset<Node *> openList;
-	std::multiset<Node *> closedList;
-	startNode->setF(0);
-	startNode->setG(0);
-	openList.insert(startNode);
-	while (!openList.empty())
-	{
-		std::multiset<Node *>::iterator it;
-		it = openList.begin();
-		Node * node = *it;
-		openList.erase(node);
-		closedList.insert(node);
-		std::set<Node *> nodeSet = node->getCNodes();
-		for (auto nextNode : nodeSet)
-		{
-			if (nextNode->isPlayer())
-			{
-				nextNode->setParentNode(node);
-				break;
-			}
-			int oldG = nextNode->getG();
-			int newG = node->getG() + 1 + 1 * nextNode->isObstructed();
-			if (openList.find(nextNode) != openList.end() && newG < oldG)
-			{
-				openList.erase(nextNode);
-			}
-			if (closedList.find(nextNode) != closedList.end() && newG < oldG)
-			{
-				closedList.erase(nextNode);
-			}
-			if (openList.find(nextNode) == openList.end() && closedList.find(nextNode) == closedList.end())
-			{
-				nextNode->setG(newG);
-				nextNode->setF(nextNode->getG() + nextNode->getH());
-				nextNode->setParentNode(node);
-				openList.insert(nextNode);
-			}
-		}
-	}
-	Node * p = targetNode;
-	std::vector<Node *> path;
-	path.push_back(p);
-	while (p->getParentNode() != NULL)
-	{
 
-		Node * temp = p->getParentNode();
-		p = temp;
-		path.push_back(p);
-	}
-	//std::cout << "Path size: " << path.size() << std::endl;
-	_path = path;
-}
 
 std::vector<Node*> Graph::getPath()
 {
@@ -244,6 +199,18 @@ void Graph::setPath(std::vector<Node *> path)
 {
 	_path = path;
 }
+
+/*void Graph::setNodeObstructed()
+{
+	
+	for (auto n : _path)
+	{
+		if (_obstacles->testNode(n->getPosition()))
+		{
+			n->setObstructed(true);
+		}
+	}
+}*/
 
 void Graph::GenerateGraph()
 {

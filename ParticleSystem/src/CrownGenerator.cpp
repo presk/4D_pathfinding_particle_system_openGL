@@ -6,7 +6,7 @@ CrownGenerator::CrownGenerator()
 {
 	//Creates a cylinder prism using cylindrical coordinates
 	MinRadius = 0;
-	MaxRadius = 4;
+	MaxRadius = 2;
 	MinPolar = 0;
 	MaxPolar = 360;
 	MinSpeed = 0.5;

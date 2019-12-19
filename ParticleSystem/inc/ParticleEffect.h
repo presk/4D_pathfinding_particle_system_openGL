@@ -29,13 +29,15 @@ public:
     void SetCamera( Camera* pCamera );
     void SetParticleGenerator( ParticleGenerator* pGenerator );
     void GenerateParticles();
-	void AddParticles();
+	void AddParticles(int amount);
 	void RemoveDeadParticles();
     virtual void Update( float fDeltaTime );
     virtual void Render();
 
     bool LoadTexture( const std::string& fileName );
     void Resize( unsigned int numParticles );
+	void Clamp(float * f, float * f2);
+	float Clamp(float f);
 
 protected:
 
